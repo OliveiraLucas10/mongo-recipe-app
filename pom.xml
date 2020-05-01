@@ -234,7 +234,7 @@
 
 
 	<scm>
-		<developerConnection>scm:git:https://github.com/OliveiraLucas10/recepi-app.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/OliveiraLucas10/mongo-recepi-app.git</developerConnection>
 		<tag>recepi-app-0.0.1</tag>
 	</scm>
 

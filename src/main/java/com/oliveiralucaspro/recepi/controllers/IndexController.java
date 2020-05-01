@@ -2,7 +2,7 @@ package com.oliveiralucaspro.recepi.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oliveiralucaspro.recepi.services.RecipeService;
 
@@ -16,7 +16,7 @@ public class IndexController {
 
     private final RecipeService recipeService;
 
-    @GetMapping({ "", "/", "/index" })
+    @RequestMapping({ "", "/", "/index" })
     public String getIndexPage(Model model) {
 	log.debug("Getting Index page");
 

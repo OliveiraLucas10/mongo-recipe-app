@@ -12,20 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormatException(Exception exception) {
+    public ModelAndView handleNumberFormat(Exception exception){
 
-	log.error("Handling Number Format Exception");
-	log.error(exception.getMessage());
+        log.error("Handling Number Format Exception");
+        log.error(exception.getMessage());
 
-	ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView();
 
-	modelAndView.setViewName("400error");
-	modelAndView.addObject("exception", exception);
+        modelAndView.setViewName("400error");
+        modelAndView.addObject("exception", exception);
 
-	return modelAndView;
+        return modelAndView;
     }
-    
 }

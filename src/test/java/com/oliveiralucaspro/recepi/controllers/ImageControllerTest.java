@@ -2,10 +2,9 @@ package com.oliveiralucaspro.recepi.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -42,21 +41,22 @@ public class ImageControllerTest {
 	MockitoAnnotations.initMocks(this);
 
 	controller = new ImageController(imageService, recipeService);
-	mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ControllerExceptionHandler()).build();
+	mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ControllerExceptionHandler())
+		.build();
     }
 
     @Test
     public void getImageForm() throws Exception {
 	// given
 	RecipeCommand command = new RecipeCommand();
-	command.setId(1L);
+	command.setId("1");
 
-	when(recipeService.findCommandById(anyLong())).thenReturn(command);
+	when(recipeService.findCommandById(anyString())).thenReturn(command);
 
 	// when
 	mockMvc.perform(get("/recipe/1/image")).andExpect(status().isOk()).andExpect(model().attributeExists("recipe"));
 
-	verify(recipeService, times(1)).findCommandById(anyLong());
+	verify(recipeService, times(1)).findCommandById(anyString());
 
     }
 
@@ -68,7 +68,7 @@ public class ImageControllerTest {
 	mockMvc.perform(multipart("/recipe/1/image").file(multipartFile)).andExpect(status().is3xxRedirection())
 		.andExpect(header().string("Location", "/recipe/1/show"));
 
-	verify(imageService, times(1)).saveImageFile(anyLong(), any());
+	verify(imageService, times(1)).saveImageFile(anyString(), any());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ImageControllerTest {
 
 	// given
 	RecipeCommand command = new RecipeCommand();
-	command.setId(1L);
+	command.setId("1");
 
 	String s = "fake image text";
 	Byte[] bytesBoxed = new Byte[s.getBytes().length];
@@ -89,7 +89,7 @@ public class ImageControllerTest {
 
 	command.setImage(bytesBoxed);
 
-	when(recipeService.findCommandById(anyLong())).thenReturn(command);
+	when(recipeService.findCommandById(anyString())).thenReturn(command);
 
 	// when
 	MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage")).andExpect(status().isOk())
@@ -99,4 +99,5 @@ public class ImageControllerTest {
 
 	assertEquals(s.getBytes().length, reponseBytes.length);
     }
+
 }

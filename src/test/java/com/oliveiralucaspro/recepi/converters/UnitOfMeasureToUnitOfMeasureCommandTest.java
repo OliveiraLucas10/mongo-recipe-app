@@ -10,13 +10,10 @@ import org.junit.Test;
 import com.oliveiralucaspro.recepi.commands.UnitOfMeasureCommand;
 import com.oliveiralucaspro.recepi.domain.UnitOfMeasure;
 
-/**
- * Created by jt on 6/21/17.
- */
 public class UnitOfMeasureToUnitOfMeasureCommandTest {
 
     public static final String DESCRIPTION = "description";
-    public static final Long LONG_VALUE = new Long(1L);
+    public static final String LONG_VALUE = "1";
 
     UnitOfMeasureToUnitOfMeasureCommand converter;
 

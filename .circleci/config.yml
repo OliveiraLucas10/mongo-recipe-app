@@ -52,9 +52,9 @@ jobs:
         - store_artifacts:
             path: ~/test-results/junit  
         
-        - run: mvn clean verify
-           
-        - run:
-           name: Send to CodeCov
-           language: java
-           command: bash <(curl -s https://codecov.io/bash) 
+#        - run: mvn clean verify
+#           
+#        - run:
+#           name: Send to CodeCov
+#           language: java
+#           command: bash <(curl -s https://codecov.io/bash) 

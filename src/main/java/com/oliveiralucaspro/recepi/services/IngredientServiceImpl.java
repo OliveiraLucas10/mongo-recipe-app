@@ -3,7 +3,6 @@ package com.oliveiralucaspro.recepi.services;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.oliveiralucaspro.recepi.commands.IngredientCommand;
 import com.oliveiralucaspro.recepi.converters.IngredientCommandToIngredient;
@@ -13,18 +12,25 @@ import com.oliveiralucaspro.recepi.domain.Recipe;
 import com.oliveiralucaspro.recepi.repositories.RecipeRepository;
 import com.oliveiralucaspro.recepi.repositories.UnitOfMeasureRepository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
+
+    public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand,
+	    IngredientCommandToIngredient ingredientCommandToIngredient, RecipeRepository recipeRepository,
+	    UnitOfMeasureRepository unitOfMeasureRepository) {
+	this.ingredientToIngredientCommand = ingredientToIngredientCommand;
+	this.ingredientCommandToIngredient = ingredientCommandToIngredient;
+	this.recipeRepository = recipeRepository;
+	this.unitOfMeasureRepository = unitOfMeasureRepository;
+    }
 
     @Override
     public IngredientCommand findByRecipeIdAndIngredientId(String recipeId, String ingredientId) {
@@ -47,11 +53,13 @@ public class IngredientServiceImpl implements IngredientService {
 	    log.error("Ingredient id not found: " + ingredientId);
 	}
 
+	IngredientCommand ingredientCommand = ingredientCommandOptional.get();
+	ingredientCommand.setRecipeId(recipeId);
+
 	return ingredientCommandOptional.get();
     }
 
     @Override
-    @Transactional
     public IngredientCommand saveIngredientCommand(IngredientCommand command) {
 	Optional<Recipe> recipeOptional = recipeRepository.findById(command.getRecipeId());
 
@@ -96,7 +104,7 @@ public class IngredientServiceImpl implements IngredientService {
 			.findFirst();
 	    }
 
-	    // to do check for fail
+	    // todo check for fail
 	    return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
 	}
 

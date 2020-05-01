@@ -14,17 +14,22 @@ import com.oliveiralucaspro.recepi.domain.Recipe;
 import com.oliveiralucaspro.recepi.exceptions.NotFoundException;
 import com.oliveiralucaspro.recepi.repositories.RecipeRepository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
+
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe,
+	    RecipeToRecipeCommand recipeToRecipeCommand) {
+	this.recipeRepository = recipeRepository;
+	this.recipeCommandToRecipe = recipeCommandToRecipe;
+	this.recipeToRecipeCommand = recipeToRecipeCommand;
+    }
 
     @Override
     public Set<Recipe> getRecipes() {
